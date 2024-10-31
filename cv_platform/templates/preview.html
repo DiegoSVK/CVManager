@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+    <nav id="nave" class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a href="{% url 'cv_platform' %}" class="text-decoration-none">
+               <span id="nav_nome" class="navbar-brand mb-0 h1"> Olá,{{ request.user.username}}</span>
+            </a>
+
+        </div>
+    </nav>
+{% endblock nav %}
+
+
+
+{% block content %}
+    <div class="container">
+        <div>
+            <h2>Dados Pessoais</h2>
+            {% for data in personal_data %}
+                <ul>
+                    <li>Nome: {{ data.first_name }}</li>
+                    <li>Sobrenome: {{ data.last_name }}</li>
+                    <li>Idade: {{ data.age }}</li>
+                    <li>Data de Nascimento: {{ data.birth_date }}</li>
+                    <li>CPF: {{ data.cpf }}</li>
+                    <li>Gênero: {{ data.gender }}</li>
+                </ul>
+            {% endfor %}
+            <h2>Contato</h2>
+            {% for data in contact_data %}
+                <ul>
+                    <li>Telefone: {{ data.phone }}</li>
+                    <li>Email: {{ data.email }}</li>
+                    <li>CEP: {{ data.cep }}</li>
+                    <li>Estado: {{ data.state }}</li>
+                    <li>Cidade: {{ data.city }}</li>
+                    <li>Endereço: {{ data.address }}</li>
+                </ul>
+            {% endfor %}
+            <h2>Experiência Profissional</h2>
+            {% for data in workexperience_data %}
+                <ul>
+                    <li>Cargo: {{ data.position }}</li>
+                    <li>Empresa: {{ data.company }}</li>
+                    <li>Data de Início: {{ data.start_date }}</li>
+                    <li>Data de Fim: {{ data.end_date }}</li>
+                    <li>Descrição: {{ data.description }}</li>
+                </ul>
+            {% endfor %}
+            <h2>Formação Acadêmica</h2>
+            {% for data in academic_data %}
+                <ul>
+                    <li>Instituição: {{ data.institution }}</li>
+                    <li>Curso: {{ data.course }}</li>
+                    <li>Data de Início: {{ data.start_date }}</li>
+                    <li>Data de Fim: {{ data.end_date }}</li>
+                    <li>Formações Adicionais: {{ data.additional_formations }}</li>
+                </ul>
+            {% endfor %}
+{% endblock content %}

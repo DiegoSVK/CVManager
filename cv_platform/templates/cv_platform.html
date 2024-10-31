@@ -1,0 +1,66 @@
+{% extends "base.html"%}
+
+{% block nav %}
+    <nav id="nave" class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+          <span id="nav_nome" class="navbar-brand mb-0 h1"> Olá,{{ request.user.username}}</span>
+          <a href="{% url 'logout' %}">
+              <button type="button" class="btn btn-link fs-5">Sair</button>
+          </a>
+        </div>
+    </nav>
+{% endblock nav %}
+
+{% block content %}
+    {% if success_message %}
+        <div class="alert alert-success text-center" role="alert">
+            {{ success_message }}
+
+        </div>
+    {% endif %}
+
+<div>
+    <div class="container mt-3">
+        <form action='{% url "cv_platform" %}' method="POST" class="form">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <input type="text" name="title" class="form-control" placeholder="Nome curriculo" aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary m-1" type="submit" id="button-addon2">Adicionar</button>
+
+            </div>
+        </form>
+    </div>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                  <th scope="col">Nome do Currículo</th>
+                  <th scope="col" class="text-center">Ações</th>
+                 </tr>
+        </thead>
+        <tbody>
+            {% for resume in user_resume %}
+                <tr class>
+                    <td class="align-middle">{{ resume.title }}</td>
+                    <td class="w-25 text-end pe-5">
+                       <div class="btn-group" role="group" aria-label="Ações">
+
+                           <a href='{% url "preview" resume.id %}'>
+                             <button class="btn btn-info me-2">Exibir</button>
+                           </a>
+
+                           <a href='{% url "delete_resume" resume.id %}'>
+                             <button class="btn btn-danger">Deletar</button>
+                           </a>
+
+                        </div>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h2 class="text-center mt-4 text-decoration-underline">Cadastro</h2>
+<div class="container p-5">
+    <form action='{% url "registration" %}' method="POST" class="form-crispy">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+    </form>
+
+{% endblock content %}

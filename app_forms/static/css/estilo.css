@@ -1,0 +1,49 @@
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+#nave{
+    background-color: #B0C4DE !important;
+  }
+  
+#nav_nome{
+    font-size: 30px;
+}
+
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30;
+}
+
+.sucess-registration{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.link-return{
+    font-size: 1.5rem;
+}
+.icone{
+
+    color: green;
+}
+
+.form-crispy{
+    width: 50%;
+}
+
+.container-login{
+    min-height: 100vh !important;
+}

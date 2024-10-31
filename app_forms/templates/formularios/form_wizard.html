@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block head %}
+{{ wizard.form.media }}
+{% endblock %}
+
+{% block nav %}
+    <nav id="nave" class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            {% if wizard.steps.current == '0'%}
+                 <span id="nav_nome" class="navbar-brand mb-0 h1">Dados Pessoais</span>
+            {% elif wizard.steps.current == '1' %}
+                 <span id="nav_nome" class="navbar-brand mb-0 h1">Contato</span>
+            {% elif wizard.steps.current == '2' %}
+                <span id="nav_nome" class="navbar-brand mb-0 h1">Experiência Profissional</span>
+            {% elif wizard.steps.current == '3' %}
+                <span id="nav_nome" class="navbar-brand mb-0 h1">Experiência Acadêmica</span>
+            {% endif %}
+        </div>
+    </nav>
+{% endblock nav %}
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
+<script>
+    $(document).ready(function(){
+
+        $("#id_1-phone").inputmask("(99)9-9999-9999");
+        $("#id_0-cpf").inputmask("999.999.999-99")
+
+    });
+        $(document).ready(function() {
+        $('#id_1-cep').on('blur', function() {
+            let cep = $(this).val().replace(/\D/g, '');
+
+            if (cep) {
+                $.getJSON(`https://viacep.com.br/ws/${cep}/json/?callback=?`, function(data) {
+                    if (!('erro' in data)) {
+                        $('#id_1-address').val(data.logradouro);
+                        $('#id_1-city').val(data.localidade);
+                        $('#id_1-state').val(data.uf);
+                        $('#cep-error').text('');
+                    } else {
+                        $('#cep-error').text('CEP não encontrado.');
+                    }
+                });
+            }
+        });
+    });
+</script>
+{% endblock script %}
+
+
+{% block content %}
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                {% if "form_error" in message.tags %}
+                    <p class="alert alert-danger">{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="container">
+        <div class="w-50 p-3">
+            <p>Etapa {{ wizard.steps.step1 }} de {{ wizard.steps.count }}</p>
+            <form action='{% url "form_wizard" %}' method="post">
+                {% csrf_token %}
+
+
+                {{ wizard.management_form }}
+
+                <table>
+                {% if wizard.form.forms %}
+
+                    {% for form in wizard.form.forms %}
+                        {{ form|crispy }}
+                    {% endfor %}
+                {% else %}
+
+                    {{ wizard.form|crispy }}
+                {% endif %}
+                </table>
+
+                {% if wizard.steps.prev %}
+                <button class="btn btn-primary" name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">Primeira etapa</button>
+                <button class="btn btn-primary" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Etapa anterior</button>
+                {% endif %}
+
+
+                {% if wizard.steps.current == wizard.steps.last %}
+                    <input type="submit"class="btn btn-success" value="Enviar"/>
+                {% else %}
+                    <input type="submit"class="btn btn-primary" value="Proxima etapa"/>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+
+
