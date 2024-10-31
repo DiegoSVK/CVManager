@@ -19,8 +19,24 @@ Para configurar o projeto no seu computador, siga estes passos:
 2. Instale as dependências: `pip install -r requirements.txt`
 
 ## Como Usar
-*Execute o servidor Django com o comando:
--python manage.py makemigrations
--python manage.py migrate
--python manage.py createsuperuser
--python manage.py runserver
+Para executar o servidor Django, siga estas etapas:
+
+1. **Execute as migrações:**
+   - No terminal, digite:
+     ```
+     python manage.py makemigrations
+     python manage.py migrate
+     ```
+
+2. **Crie um superusuário:**
+   - No terminal, digite:
+     ```
+     python manage.py createsuperuser
+     ```
+
+3. **Inicie o servidor:**
+   - No terminal, digite:
+     ```
+     python manage.py runserver
+     ```
+
